@@ -14,29 +14,11 @@ public class MatrixTest {
     }
 
     @Test
-    public void mulSS() {
-        Matrix m1 = new SparseMatrix("m1.txt");
-        Matrix m2 = new SparseMatrix("m2.txt");
-        Matrix res = m1.mul(m2);
-        Matrix expected = new SparseMatrix("result.txt");
-        assertEquals(expected, res);
-    }
-
-    @Test
-    public void mulDS() {
+    public void dmul() throws Throwable{
         Matrix m1 = new DenseMatrix("m1.txt");
-        Matrix m2 = new SparseMatrix("m2.txt");
-        Matrix res = m1.mul(m2);
-        Matrix expected = new SparseMatrix("result.txt");
-        assertEquals(expected, res);
+        Matrix m2 = new DenseMatrix("m2.txt");
+        Matrix expected = new DenseMatrix("result.txt");
+        assertEquals(expected, m1.dmul(m2));
     }
 
-    @Test
-    public void mulSD() {
-        Matrix m1 = new SparseMatrix("m1.txt");
-        Matrix m2 = new DenseMatrix("m2.txt");
-        Matrix res = m1.mul(m2);
-        Matrix expected = new SparseMatrix("result.txt");
-        assertEquals(expected, res);
-    }
 }

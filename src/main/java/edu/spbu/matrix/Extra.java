@@ -44,7 +44,6 @@ public class Extra {
             }
         }
         catch (FileNotFoundException e){
-            //e.printStackTrace();
             System.out.println("\nПо такому пути : " + path);
             System.out.println("Не удается найти указанный файл : " + name);
             System.out.println("Из-за этого программа завершена.");
@@ -92,7 +91,7 @@ public class Extra {
             System.out.println("Возникла проблема с выводом массива в :" + name);
         }
     } // вывод массива в файл
-
+    /*
     public static void convCRS(SparseMatrix x){
         int arr[][] = x.getArr();
         int n = arr.length;
@@ -152,5 +151,5 @@ public class Extra {
         System.out.println("Строки: " + x.getTwo_line());
         System.out.println("Столбцы: " + x.getTwo_column());
         System.out.println("");
-    }
+    }*/
 }
