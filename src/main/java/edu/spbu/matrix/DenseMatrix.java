@@ -4,7 +4,7 @@ public class DenseMatrix implements Matrix {
     private int arr[][];
     private int line;
     private int column;
-    private int processor = 16;
+    private int processor = 4;
 
     public DenseMatrix(String name) {
         arr = Extra.readFile(name);
@@ -71,11 +71,6 @@ public class DenseMatrix implements Matrix {
     private int flag = -line / processor;
 
     public Matrix dmul(Matrix obj) throws Throwable {
-        if (line == 2000) {
-            processor = 16;
-        } else {
-            processor = line;
-        }
         DenseMatrix matrix = (DenseMatrix) obj;
         args = matrix.arr;
         line_v2 = matrix.getLine();
@@ -97,13 +92,21 @@ public class DenseMatrix implements Matrix {
         public void run() {
             Frame f = getFrame();
             int start = f.getStart(), end = f.getEnd();
-            for (int i = start; i < end; i++) {
+            int q = line_v2;
+            int w = column_v2;
+
+            int mat[][] = args;
+            int rez[][] = new int[w][line]; // Транспонированная
+            for (int i = 0; i < q; i++)
+                for (int j = 0; j < w; j++) {
+                    rez[j][i] = mat[i][j];
+                }
+            for (int i = start; i < end; i++)
                 for (int j = 0; j < column_v2; j++) {
                     res[i][j] = 0;
-                    for (int k = 0; k < column; k++)
-                        res[i][j] += arr[i][k] * args[k][j];
+                    for (int k = 0; k < line_v2; k++)
+                        res[i][j] += arr[i][k] * rez[j][k];
                 }
-            }
             System.out.println(Thread.currentThread().getName() + " закончен.");
         }
     }
