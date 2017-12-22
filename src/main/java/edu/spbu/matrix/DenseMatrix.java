@@ -39,19 +39,27 @@ public class DenseMatrix implements Matrix {
     } // Распределяет далее по функциям и отсеивает неправильные матрицы
 
     private Matrix mulDD(DenseMatrix matrix) {
-        int m = getLine();
-        int n = getColumn();
-        int q = matrix.getColumn();
-        int[][] C = new int[m][q];
-        int[][] A = getArr();
-        int[][] B = matrix.getArr();
+        int n = getLine();
+        int m = getColumn();
+        int q = matrix.getLine();
+        int w = matrix.getColumn();
 
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < q; j++) {
-                C[i][j] = 0;
-                for (int k = 0; k < n; k++)
-                    C[i][j] += A[i][k] * B[k][j];
+        int arr[][] = matrix.getArr();
+        int rez[][] = new int[w][n];
+        for (int i = 0; i < q; i++)
+            for (int j = 0; j < w; j++) {
+                rez[j][i] = arr[i][j];
             }
+        int[][] C = new int[n][w];
+        int[][] A = getArr();
+        int[][] B = rez;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < w; j++) {
+                C[i][j] = 0;
+                for (int k = 0; k < m; k++)
+                    C[i][j] += A[i][k] * B[j][k];
+            }
+
         //Extra.printMatrixFile(C, "result.txt");
         return new DenseMatrix(C);
     }
@@ -63,6 +71,11 @@ public class DenseMatrix implements Matrix {
     private int flag = -line / processor;
 
     public Matrix dmul(Matrix obj) throws Throwable {
+        if (line == 2000) {
+            processor = 16;
+        } else {
+            processor = line;
+        }
         DenseMatrix matrix = (DenseMatrix) obj;
         args = matrix.arr;
         line_v2 = matrix.getLine();
